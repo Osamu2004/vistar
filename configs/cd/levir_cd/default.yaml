@@ -1,0 +1,113 @@
+data_provider:                     # 数据提供器配置
+  type: levir_cd                  # 数据提供器名称（必须已注册到 DATAPROVIDER）
+  root: E:\zzy\S2Looking       # 数据集根目录
+  base_batch_size: 8              # 基础批量大小
+  train_batch_size: 8             # 训练批量大小
+  test_batch_size: 64              # 测试批量大小
+  num_workers: 8                   # 数据加载线程数
+  num_replicas: null               # 分布式训练副本数（可动态设置）
+  rank: null                       # 分布式训练 rank（可动态设置）
+  shuffle: True                    # 是否打乱数据顺序
+
+  data_aug:                        # 数据增强配置
+    train:
+      shared:                        # 共享数据增强配置
+        - type: flip       # 水平翻转
+          params:
+            horizontal: True                  # 应用概率
+            vertical: True #
+        - type: shift_scale_rotate       # 水平翻转
+          params:
+            shift_limit: 0.0625                  # 应用概率
+            scale_limit: 0.1 #
+            rotate_limit: 45
+            p: 0.8 #
+        - type: random_crop       # 水平翻转
+          params:
+            height: 256                  # 应用概率
+            width: 256 #
+            always_apply: True
+      t1:                   # 针对 t1_image 的专属增强
+        - type: gauss_noise          # 高斯噪声
+          params:
+            var_limit_min: 10.0
+            var_limit_max: 50.0
+            mean: 0
+            p: 0.4                   # 应用概率
+      t2:                   # 针对 t2_image 的专属增强
+        - type: gauss_noise          # 高斯噪声
+          params:
+            var_limit_min: 10.0
+            var_limit_max: 50.0
+            mean: 0
+            p: 0.4 
+    val:
+      shared:
+        - type: noop
+      t1:
+        - type: noop
+      t2:
+        - type: noop
+    test:
+      shared:
+        - type: noop
+      t1:
+        - type: noop
+      t2:
+        - type: noop
+  data_crop:                       # 数据裁剪配置
+    train:                         # 训练数据裁剪
+      enable: False                # 禁用裁剪       
+    val:                           # 验证数据裁剪
+      enable: True                # 禁用裁剪
+      crop_size:                   # 裁剪大小
+        - 256
+        - 256
+      step_size:                   # 裁剪步长
+        - 256
+        - 256
+      padding: 0                  
+    test:                          # 测试数据裁剪
+      enable: True                 # 是否启用裁剪
+      crop_size:                   # 裁剪大小
+        - 256
+        - 256
+      step_size:                   # 裁剪步长
+        - 256
+        - 256
+      padding: 0                   # 测试数据填充
+
+run_config:
+  n_steps: 400000
+  log_interval: 1000
+  base_lr: 0.0005
+  warmup_steps: 10000
+  warmup_lr: 1.0e-08
+  lr_schedule_name: cosine
+  lr_schedule_param: {}
+  optimizer_name: adamw
+  optimizer_params:
+    eps: 1.0e-08
+    betas:
+    - 0.9
+    - 0.999
+  weight_decay: 0.01
+  no_wd_keys:
+  - norm
+  - bias
+  grad_clip: 1.0
+  mesa: null
+  loss:  # 新增的损失函数配置
+    type1: dice   # 使用已注册的 "dice" 损失函数
+    params1:      # 参数字段
+      mode: multiclass
+    weight1: 1.0  # 权重
+    type2: focal  # 使用已注册的 "focal" 损失函数
+    params2:
+      alpha: [0.75,0.25]
+      gamma: 2.0
+      mode: multiclass
+    weight2: 20.0
+net_config:
+  name: cdf-b2
+ema_decay: 0.9998
