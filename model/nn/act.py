@@ -7,7 +7,6 @@ from model_test.utils.network import build_kwargs_from_config
 __all__ = ["build_act"]
 
 
-# register activation function here
 REGISTERED_ACT_DICT = {
     "relu": nn.ReLU,
     "relu6": nn.ReLU6,

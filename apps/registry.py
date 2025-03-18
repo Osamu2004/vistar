@@ -88,4 +88,4 @@ AUGMENTATION = Registry()
 LOSS = Registry()
 DATAPROVIDER = Registry()
 OPT = Registry()
-
+MODEL = Registry()
