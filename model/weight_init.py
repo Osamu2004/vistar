@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from apps.registry import WEIGHT_INITIALIZERS
+from apps.registry import WEIGHT_INITIALIZER
 
 def update_init_info(module, init_info):
     """Update the `_params_init_info` in the module if the value of parameters
@@ -156,7 +156,7 @@ class BaseInit:
         return info
 
 
-@WEIGHT_INITIALIZERS.register('Constant')
+@WEIGHT_INITIALIZER.register('Constant')
 class ConstantInit(BaseInit):
     """Initialize module parameters with constant values.
 
@@ -193,7 +193,7 @@ class ConstantInit(BaseInit):
         return info
 
 
-@WEIGHT_INITIALIZERS.register('Xavier')
+@WEIGHT_INITIALIZER.register('Xavier')
 class XavierInit(BaseInit):
     r"""Initialize module parameters with values according to the method
     described in the paper below.
@@ -239,7 +239,7 @@ class XavierInit(BaseInit):
         return info
 
 
-@WEIGHT_INITIALIZERS.register('Normal')
+@WEIGHT_INITIALIZER.register('Normal')
 class NormalInit(BaseInit):
     r"""Initialize module parameters with the values drawn from the normal
     distribution :math:`\mathcal{N}(\text{mean}, \text{std}^2)`.
@@ -281,7 +281,7 @@ class NormalInit(BaseInit):
         return info
 
 
-@WEIGHT_INITIALIZERS.register('TruncNormal')
+@WEIGHT_INITIALIZER.register('TruncNormal')
 class TruncNormalInit(BaseInit):
     r"""Initialize module parameters with the values drawn from the normal
     distribution :math:`\mathcal{N}(\text{mean}, \text{std}^2)` with values
@@ -335,7 +335,7 @@ class TruncNormalInit(BaseInit):
         return info
 
 
-@WEIGHT_INITIALIZERS.register('Uniform')
+@WEIGHT_INITIALIZER.register('Uniform')
 class UniformInit(BaseInit):
     r"""Initialize module parameters with values drawn from the uniform
     distribution :math:`\mathcal{U}(a, b)`.
@@ -378,7 +378,7 @@ class UniformInit(BaseInit):
         return info
 
 
-@WEIGHT_INITIALIZERS.register('Kaiming')
+@WEIGHT_INITIALIZER.register('Kaiming')
 class KaimingInit(BaseInit):
     r"""Initialize module parameters with the values according to the method
     described in the paper below.
@@ -443,7 +443,7 @@ class KaimingInit(BaseInit):
         return info
 
 
-@WEIGHT_INITIALIZERS.register('Caffe2Xavier')
+@WEIGHT_INITIALIZER.register('Caffe2Xavier')
 class Caffe2XavierInit(KaimingInit):
     # `XavierFill` in Caffe2 corresponds to `kaiming_uniform_` in PyTorch
     # Acknowledgment to FAIR's internal code
@@ -459,7 +459,7 @@ class Caffe2XavierInit(KaimingInit):
         super().__call__(module)
 from apps.utils.model import load_state_dict_from_file
 
-@WEIGHT_INITIALIZERS.register('Pretrained')
+@WEIGHT_INITIALIZER.register('Pretrained')
 class PretrainedInit:
     """Initialize module by loading a pretrained model.
 

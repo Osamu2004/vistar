@@ -4,7 +4,7 @@ from model_test.utils.network import build_kwargs_from_config
 from torch.nn.modules.batchnorm import _BatchNorm
 from timm.layers import LayerNorm2d
 
-__all__ = [ "build_norm",  "set_norm_eps"]
+__all__ = [ "build_norm"]
 
 
 
@@ -27,10 +27,5 @@ def build_norm(name="bn2d", num_features=None, **kwargs) -> nn.Module or None:
         args = build_kwargs_from_config(kwargs, norm_cls)
         return norm_cls(**args)
     else:
-        return None
+        raise ValueError(f"Norm type '{name}' is not registered.")
     
-def set_norm_eps(model: nn.Module, eps: float or None = None) -> None:
-    for m in model.modules():
-        if isinstance(m, (nn.GroupNorm, nn.LayerNorm, _BatchNorm)):
-            if eps is not None:
-                m.eps = eps

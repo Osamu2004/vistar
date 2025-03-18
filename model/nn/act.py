@@ -3,7 +3,7 @@ from functools import partial
 import torch.nn as nn
 
 from model_test.utils.network import build_kwargs_from_config
-
+from apps.registry import MODEL
 __all__ = ["build_act"]
 
 
@@ -22,4 +22,4 @@ def build_act(name: str, **kwargs) -> nn.Module or None:
         args = build_kwargs_from_config(kwargs, act_cls)
         return act_cls(**args)
     else:
-        return None
+        raise ValueError(f"Act type '{name}' is not registered.")

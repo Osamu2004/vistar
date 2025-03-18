@@ -13,7 +13,7 @@ from typing import Iterable, List, Optional, Union
 
 import torch.nn as nn
 from model.weight_init import initialize,update_init_info
-
+from apps.utils.logger import WandbLogger
 
 class BaseModule(nn.Module, metaclass=ABCMeta):
     def __init__(self, init_cfg: Union[dict, List[dict], None] = None):
@@ -104,7 +104,7 @@ class BaseModule(nn.Module, metaclass=ABCMeta):
     def _dump_init_info(self):
         """Dump the initialization information to a file named
         `initialization.log.json` in workdir."""
-        logger = CustomLogger.get_current_instance()
+        logger = WandbLogger.get_current_instance()
         # dump the information to the logger file if there is a `FileHandler`
         for handler in logger.handlers:
             if isinstance(handler, FileHandler):
