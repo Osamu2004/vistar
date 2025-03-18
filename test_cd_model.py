@@ -33,78 +33,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-def tensor_split_and_infer(model, input_dict, selected_keys, crop_size=(256, 256), stride=(128, 128),out_channels=4):
-    """
-    适配字典格式数据，将指定 keys 进行切割后输入模型推理，最后拼接回原尺寸。
 
-    Args:
-        model (torch.nn.Module): 需要执行的模型。
-        input_dict (dict): 包含多个输入张量的字典，形如：
-            {
-                "image": (B, C, H, W),
-                "t2_image": (B, C, H, W),
-                "mask": (B, 1, H, W) # 可选
-            }
-        selected_keys (list): 需要进行切割和推理的键，例如 `["image", "t2_image"]`。
-        crop_size (tuple): (height, width)，裁剪块大小，默认 (256, 256)。
-        stride (tuple): (step_y, step_x)，滑动步长，默认 (128, 128)。
-        batch_size (int): 多少个 patch 组成一个 batch 进行推理，提高推理效率。
-
-    Returns:
-        dict: 包含模型输出的字典，与输入分辨率一致：
-            {
-                "main_output": (B, C_out, H, W),
-                "extra_output": (B, C_extra, H, W) # 若模型有额外输出
-            }
-    """
-    # 获取输入的形状
-    B, _, H, W = input_dict[selected_keys[0]].shape
-    h_stride, w_stride = stride
-    h_crop, w_crop = crop_size
-    
-    # 计算滑动窗口的步数
-    h_grids = max(H - h_crop + h_stride - 1, 0) // h_stride + 1
-    w_grids = max(W - w_crop + w_stride - 1, 0) // w_stride + 1
-    
-
-    out_channels = out_channels
-    
-    output_dict = {
-        "main_output": torch.zeros((B, out_channels, H, W), dtype=torch.float32, device=input_dict[selected_keys[0]].device),
-        "count_map": torch.zeros((B, 1, H, W), dtype=torch.float32, device=input_dict[selected_keys[0]].device)
-    }
-    
-    # 遍历滑动窗口
-    for h_idx in range(h_grids):
-        for w_idx in range(w_grids):
-            y1 = h_idx * h_stride
-            x1 = w_idx * w_stride
-            y2 = min(y1 + h_crop, H)
-            x2 = min(x1 + w_crop, W)
-            y1 = max(y2 - h_crop, 0)
-            x1 = max(x2 - w_crop, 0)
-            
-            # 取出当前窗口的 patch
-            patch_inputs = {key: input_dict[key][:, :, y1:y2, x1:x2] for key in selected_keys}
-            
-            # 进行模型推理
-            with torch.no_grad():
-                patch_outputs = model(patch_inputs)  # 模型可能返回多个输出
-            
-            # 将预测结果合并到输出张量
-            output_dict["main_output"][:, :, y1:y2, x1:x2] += patch_outputs
-            output_dict["count_map"][:, :, y1:y2, x1:x2] += 1
-            
-            # 处理额外输出
-    
-    # 归一化结果
-    for key in ["main_output"]:
-        if key in output_dict:
-            output_dict[key] /= torch.clamp(output_dict["count_map"], min=1.0)
-    
-    # 移除 count_map
-    output_dict.pop("count_map")
-    return output_dict["main_output"]
 
 
 def save_image_with_name(image, name, output_dir):

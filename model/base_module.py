@@ -12,7 +12,6 @@ from logging import FileHandler
 from typing import Iterable, List, Optional, Union
 
 import torch.nn as nn
-from apps.utils.logger.logger import CustomLogger
 from model.weight_init import initialize,update_init_info
 
 

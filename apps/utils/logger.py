@@ -3,18 +3,28 @@ import sys
 import wandb
 from typing import Optional, Dict
 
+import os 
+import sys
+import wandb
+from typing import Optional, Dict
+
 class WandbLogger:
+    # 定义一个类变量来存储当前实例
+    _current_instance = None
+
     def __init__(self, project: str, config: Optional[Dict] = None, 
-                 notes: Optional[str] = None, save_dir: Optional[str] = None,name : Optional[str]= None,offline: bool = False):
+                 notes: Optional[str] = None, save_dir: Optional[str] = None, 
+                 name: Optional[str] = None, offline: bool = False):
         """
         初始化 WandbLogger 类，用于记录训练日志。
 
         Args:
             project_name (str): wandb 项目的名称。
-            entity (str, optional): 你的 wandb 实体名称。如果没有指定，它将使用默认实体。
             config (dict, optional): 训练配置参数字典，将记录在 wandb 项目中。
             notes (str, optional): 在启动项目时附加的说明。
             save_dir (str, optional): 指定 wandb 的保存路径。如果没有提供，默认为当前工作目录。
+            name (str, optional): 项目的名称。
+            offline (bool): 是否以离线模式运行 wandb。
         """
         self.project_name = project
         self.config = config if config else {}
@@ -22,6 +32,10 @@ class WandbLogger:
         self.save_dir = save_dir if save_dir else os.getcwd()  # 默认为当前工作目录
         self.name = name
         self.offline = offline
+        
+        # 在初始化时将当前实例存储到类变量中
+        WandbLogger._current_instance = self
+        
         # 初始化 wandb
         self.init_wandb()
 
@@ -48,6 +62,15 @@ class WandbLogger:
         if self.offline:
             print(f"Wandb运行于离线模式，日志保存在: {self.save_dir}/wandb/")
 
+    @classmethod
+    def get_current_instance(cls):
+        """
+        返回当前 WandbLogger 实例。
+        
+        Returns:
+            WandbLogger: 当前的 WandbLogger 实例。
+        """
+        return cls._current_instance
 
     def log_metrics(self, metrics: Dict, step: Optional[int] = None):
         """
@@ -62,7 +85,6 @@ class WandbLogger:
         
         # 记录到 wandb
         wandb.log(metrics)
-
 
     def log_artifact(self, artifact_name: str, artifact_type: str, artifact_data: str):
         """
