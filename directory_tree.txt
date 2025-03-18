@@ -1,0 +1,169 @@
+/opt/data/private/competition/code/
+├── 1.ipynb
+├── environment.yml
+├── eval_cd_model.py
+├── run.bash
+├── test_cd_model.py
+├── train_cd_model.py
+├── apps/
+├── __init__.py
+├── builder.py
+├── cropper.py
+├── registry.py
+├── setup.py
+├── data_provider/
+│   ├── __init__.py
+│   └── base.py
+├── utils/
+│   ├── __init__.py
+│   ├── dist.py
+│   ├── ema.py
+│   ├── init.py
+│   ├── logger.py
+│   ├── lr.py
+│   ├── metric.py
+│   ├── misc.py
+│   └── model.py
+├── trainer/
+│   ├── __init__.py
+│   ├── base.py
+│   ├── losses.py
+│   ├── opt.py
+│   └── run_config.py
+├── augment/
+│   ├── __init__.py
+│   └── augment.py
+├── cdcore/
+├── __init__.py
+├── cd_model_zoo.py
+├── registry.py
+├── data_provider/
+│   ├── __init__.py
+│   ├── base.py
+│   ├── dfc25_track2.py
+│   ├── hi_ucd.py
+│   ├── levir_cd.py
+│   └── s2looking.py
+├── trainer/
+│   ├── __init__.py
+│   ├── cd_run_config.py
+│   ├── cd_trainer.py
+│   └── utils.py
+├── model/
+├── __init__.py
+└── base_model.py
+├── dfc25_track2_baseline/
+├── args.yaml
+├── config.yaml
+├── training_20250130_113026.log
+├── training_20250130_113100.log
+├── training_20250130_113128.log
+├── training_20250130_114036.log
+├── wandb/
+│   ├── debug-internal.log
+│   ├── debug.log
+│   ├── wandb-resume.json
+│   ├── run-20250130_113132-x7jzp9ka/
+│   │   ├── run-x7jzp9ka.wandb
+│   │   ├── tmp/
+│   │   │   ├── code/
+│   │   ├── files/
+│   │   │   ├── config.yaml
+│   │   │   ├── output.log
+│   │   │   ├── requirements.txt
+│   │   │   ├── wandb-metadata.json
+│   │   │   └── wandb-summary.json
+│   │   ├── logs/
+│   │   │   ├── debug-core.log
+│   │   │   ├── debug-internal.log
+│   │   │   └── debug.log
+│   ├── run-20250130_113030-x7jzp9ka/
+│   │   ├── run-x7jzp9ka.wandb
+│   │   ├── tmp/
+│   │   │   ├── code/
+│   │   ├── files/
+│   │   │   ├── config.yaml
+│   │   │   ├── output.log
+│   │   │   ├── requirements.txt
+│   │   │   ├── wandb-metadata.json
+│   │   │   └── wandb-summary.json
+│   │   ├── logs/
+│   │   │   ├── debug-core.log
+│   │   │   ├── debug-internal.log
+│   │   │   └── debug.log
+│   ├── run-20250130_113103-x7jzp9ka/
+│   │   ├── run-x7jzp9ka.wandb
+│   │   ├── tmp/
+│   │   │   ├── code/
+│   │   ├── files/
+│   │   │   ├── config.yaml
+│   │   │   ├── output.log
+│   │   │   ├── requirements.txt
+│   │   │   ├── wandb-metadata.json
+│   │   │   └── wandb-summary.json
+│   │   ├── logs/
+│   │   │   ├── debug-core.log
+│   │   │   ├── debug-internal.log
+│   │   │   └── debug.log
+├── model_test_compete/
+├── __init__.py
+├── backbone/
+│   ├── __init__.py
+│   └── backbone.py
+├── utils/
+│   ├── __init__.py
+│   ├── list.py
+│   ├── network.py
+│   ├── (3)/
+├── CDformer/
+│   ├── __init__.py
+│   ├── backbone.py
+│   ├── cdseg.py
+│   ├── (1)/
+├── nn/
+│   ├── CDformer.py
+│   ├── CDformer2.py
+│   ├── CDformer3.py
+│   ├── CDformer4.py
+│   ├── CDformer5.py
+│   ├── __init__.py
+│   ├── act.py
+│   ├── nas.py
+│   ├── norm.py
+│   ├── ops.py
+│   ├── (2)/
+├── configs/
+├── cd/
+│   ├── s2looking/
+│   │   └── default.yaml
+│   ├── levir_cd/
+│   │   └── default.yaml
+│   ├── dfc25_track2/
+│   │   └── default.yaml
+├── model_test/
+├── __init__.py
+├── backbone/
+│   ├── __init__.py
+│   └── backbone.py
+├── utils/
+│   ├── __init__.py
+│   ├── list.py
+│   ├── network.py
+│   ├── (3)/
+├── CDformer/
+│   ├── __init__.py
+│   ├── backbone.py
+│   ├── cdseg.py
+│   ├── (1)/
+├── nn/
+│   ├── CDformer.py
+│   ├── CDformer2.py
+│   ├── CDformer3.py
+│   ├── CDformer4.py
+│   ├── CDformer5.py
+│   ├── __init__.py
+│   ├── act.py
+│   ├── nas.py
+│   ├── norm.py
+│   ├── ops.py
+│   ├── (2)/
