@@ -6,64 +6,17 @@ Additionally, for LayerNorm, the APEX fused LN is used if available (which also 
 
 Hacked together by / Copyright 2022 Ross Wightman
 """
-from typing import List, Optional
-
-import torch
-from torch.nn import functional as F
-
 try:
     from apex.normalization.fused_layer_norm import fused_layer_norm_affine
     has_apex = True
 except ImportError:
     has_apex = False
 
-try:
-    from apex.normalization.fused_layer_norm import fused_rms_norm_affine, fused_rms_norm
-    has_apex_rmsnorm = True
-except ImportError:
-    has_apex_rmsnorm = False
+from typing import List, Optional
 
-
-has_torch_rms_norm = hasattr(F, 'rms_norm')
-
-# fast (ie lower precision LN) can be disabled with this flag if issues crop up
-_USE_FAST_NORM = False  # defaulting to False for now
-
-
-def get_autocast_dtype(device: str = 'cuda'):
-    try:
-        return torch.get_autocast_dtype(device)
-    except (AttributeError, TypeError):
-        # dispatch to older device specific fns, only covering cuda/cpu devices here
-        if device == 'cpu':
-            return torch.get_autocast_cpu_dtype()
-        else:
-            assert device == 'cuda'
-            return torch.get_autocast_gpu_dtype()
-
-
-def is_autocast_enabled(device: str = 'cuda'):
-    try:
-        return torch.is_autocast_enabled(device)
-    except TypeError:
-        # dispatch to older device specific fns, only covering cuda/cpu devices here
-        if device == 'cpu':
-            return torch.is_autocast_cpu_enabled()
-        else:
-            assert device == 'cuda'
-            return torch.is_autocast_enabled()  # defaults cuda (only cuda on older pytorch)
-
-
-def is_fast_norm():
-    return _USE_FAST_NORM
-
-
-def set_fast_norm(enable=True):
-    global _USE_FAST_NORM
-    _USE_FAST_NORM = enable
-
-
-
+import torch
+from torch.nn import functional as F
+from .config import is_autocast_enabled, get_autocast_dtype
 
 
 def fast_layer_norm(
