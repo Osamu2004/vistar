@@ -6,7 +6,7 @@ from cdcore.registry import register_cd_all
 from apps.registry import DATAPROVIDER, AUGMENTATION
 from cdcore.trainer.cd_run_config import CDRunConfig
 from cdcore.cd_model_zoo import create_cd_model
-from cdcore.trainer.semi_cd_trainer import SEMI_CDTrainer
+from cdcore.trainer.semicd_trainer import SEMI_CDTrainer
 
 parser = argparse.ArgumentParser()
 parser.add_argument("config", metavar="FILE", help="config file")
