@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 from model.nn.ops import LinearLayer,ResidualBlock,DualResidualBlock,IdentityLayer,TimeMBConv,LayerScale2d,build_norm,MBConv
-from model.nn.act import build_act
+from model.nn.build_act import build_act
 from typing import Tuple
 class LowMixer(nn.Module):
     def __init__(self, dim, num_heads=8, qkv_bias=False, attn_drop=0., pool_size=2,
