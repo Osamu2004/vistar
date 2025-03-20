@@ -13,7 +13,7 @@ class Mlp2d(nn.Module):
             out_channels: int,
             expand_ratio=4,
             mid_channels=None,
-            use_bias=False,
+            use_bias=(False,False),
             drop_ratio=(0., 0.),
             norm=(None, None),
             act_func=("relu6", None),
@@ -23,18 +23,11 @@ class Mlp2d(nn.Module):
         mid_channels = mid_channels or round(in_channels * expand_ratio)
         use_bias = use_bias 
 
-        self.fc1 = ConvNormAct(
-            in_channels,
-            mid_channels,
-            1,
-            stride=1,
-            norm=norm[0],
-            act_func=act_func[0],
-            use_bias=use_bias[0],
-        )
+        self.fc1 = nn.Conv2d(in_channels, mid_channels, 1, bias=use_bias[0])
+        self.act = build_act(act_func[0])
         self.drop1 = nn.Dropout(drop_ratio[0])
-        self.norm = norm_layer(hidden_features) if norm_layer is not None else nn.Identity()
-        self.fc2 = linear_layer(hidden_features, out_features, bias=bias[1])
+        self.norm = build_norm(norm[0], num_features=mid_channels) if norm[0] else nn.Identity()
+        self.fc2 = nn.Conv2d(mid_channels, out_channels, bias=use_bias[1])
         self.drop2 = nn.Dropout(drop_ratio[1])
 
     def forward(self, x):

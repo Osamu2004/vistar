@@ -1,9 +1,10 @@
 import torch
 import torch.nn as nn
 from model_test.utils.network import build_kwargs_from_config
-from torch.nn.modules.batchnorm import _BatchNorm
 from timm.layers import LayerNorm2d
-from .fast_norm import is_fast_norm, fast_layer_norm
+from .fast_norm import fast_layer_norm
+from .config import is_fast_norm
+from .utils import IdentityLayer 
 __all__ = [ "build_norm"]
 
 
@@ -47,6 +48,8 @@ REGISTERED_NORM_DICT = {
 }
 
 def build_norm(name="bn2d", num_features=None, **kwargs) -> nn.Module or None:
+    if name is None:
+        return IdentityLayer()  # 如果name为None，返回IdentityLayer实例
     if name in ["ln"]:
         kwargs["normalized_shape"] = num_features
     if name in [ "ln2d"]:
