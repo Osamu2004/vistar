@@ -1,6 +1,6 @@
 import torch
 from typing import Dict, Optional
-from model.base_module import BaseModule
+from layer.base_module import BaseModule
 # 假设模型类继承自BaseModel
 class Segmentor(BaseModule):
     def __init__(self, init_cfg: Optional[dict] = None):

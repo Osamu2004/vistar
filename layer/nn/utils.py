@@ -17,3 +17,16 @@ def build_kwargs_from_config(config: dict, target_func: callable):
             kwargs[key] = config[key]
     return kwargs
 
+def val2list(x: list or tuple or any, repeat_time=1) -> list:
+    if isinstance(x, (list, tuple)):
+        return list(x)
+    return [x for _ in range(repeat_time)]
+
+def val2tuple(x: list or tuple or any, min_len: int = 1, idx_repeat: int = -1) -> tuple:
+    x = val2list(x)
+
+    # repeat elements if necessary
+    if len(x) > 0:
+        x[idx_repeat:idx_repeat] = [x[idx_repeat] for _ in range(min_len - len(x))]
+
+    return tuple(x)

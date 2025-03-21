@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 from typing import Dict
 import torch.nn as nn
 
-from model.base_module import BaseModule
+from layer.base_module import BaseModule
 from typing import Optional
 __all__ = ["Backbone"]
 class ShapeSpec:

@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
-from model.nn.utils import get_same_padding
-from model.nn.build_norm import build_norm
-from model.nn.build_act import build_act
+from layer.nn.utils import get_same_padding
+from layer.nn.build_norm import build_norm
+from layer.nn.build_act import build_act
 
 class ConvNormAct(nn.Module):
     def __init__(

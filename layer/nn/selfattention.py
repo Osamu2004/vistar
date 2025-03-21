@@ -5,12 +5,10 @@ from torch import nn as nn
 from torch.nn import functional as F
 
 from .config import use_fused_attn
-from .create_conv2d import create_conv2d
-from .helpers import to_2tuple
-from .pool2d_same import create_pool2d
 
 
-class MultiQueryAttentionV2(nn.Module):
+
+class MultiQueryAttention(nn.Module):
     """Multi Query Attention.
 
     Fast Transformer Decoding: One Write-Head is All You Need

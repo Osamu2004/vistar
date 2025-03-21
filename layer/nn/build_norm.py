@@ -1,10 +1,11 @@
 import torch
 import torch.nn as nn
-from model_test.utils.network import build_kwargs_from_config
+from .utils import build_kwargs_from_config
 from timm.layers import LayerNorm2d
 from .fast_norm import fast_layer_norm
 from .config import is_fast_norm
-from .utils import IdentityLayer 
+from .identity import IdentityLayer 
+from torch.nn import functional as F
 __all__ = [ "build_norm"]
 
 

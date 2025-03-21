@@ -12,7 +12,7 @@ from logging import FileHandler
 from typing import Iterable, List, Optional, Union
 
 import torch.nn as nn
-from model.weight_init import initialize,update_init_info
+from layer.weight_init import initialize,update_init_info
 from apps.utils.logger import WandbLogger
 
 class BaseModule(nn.Module, metaclass=ABCMeta):

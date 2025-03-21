@@ -173,7 +173,7 @@ def cbf_seg_b2(dataset: str) -> CBFCDSeg:
     return model
 
 def cbf_seg_b3(dataset: str) -> CBFCDSeg:
-    from model.CDformer.backbone import cbf_b3
+    from layer.CDformer.backbone import cbf_b3
     backbone = cbf_b3()
 
     if dataset == "levir_cd":
