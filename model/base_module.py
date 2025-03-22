@@ -12,8 +12,8 @@ from logging import FileHandler
 from typing import Iterable, List, Optional, Union
 
 import torch.nn as nn
-from layer.weight_init import initialize,update_init_info
-from apps.utils.logger import WandbLogger
+from model.weight_init import initialize,update_init_info
+from apps.utils.logger import WandbLogger,BaseLogger
 
 class BaseModule(nn.Module, metaclass=ABCMeta):
     def __init__(self, init_cfg: Union[dict, List[dict], None] = None):
@@ -55,12 +55,6 @@ class BaseModule(nn.Module, metaclass=ABCMeta):
         module_name = self.__class__.__name__
         if not self._is_init:
             if self.init_cfg:
-                '''
-                print_log(
-                    f'initialize {module_name} with init_cfg {self.init_cfg}',
-                    logger='current',
-                    level=logging.DEBUG)
-                '''
                 init_cfgs = self.init_cfg
                 if isinstance(self.init_cfg, dict):
                     init_cfgs = [self.init_cfg]
@@ -104,7 +98,7 @@ class BaseModule(nn.Module, metaclass=ABCMeta):
     def _dump_init_info(self):
         """Dump the initialization information to a file named
         `initialization.log.json` in workdir."""
-        logger = WandbLogger.get_current_instance()
+        logger = BaseLogger.get_current_instance()
         # dump the information to the logger file if there is a `FileHandler`
         for handler in logger.handlers:
             if isinstance(handler, FileHandler):

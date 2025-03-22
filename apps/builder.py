@@ -1,4 +1,4 @@
-from apps.registry import AUGMENTATION,LOSS,DATAPROVIDER,OPT
+from apps.registry import AUGMENTATION,LOSS,DATAPROVIDER,OPT,WEIGHT_INITIALIZER
 
 
 def make_dataprovider(config):
@@ -140,6 +140,19 @@ def make_optimizer(net_params,optimizer_name,optimizer_params, init_lr):
     return OPT[optimizer_name](net_params, init_lr, **(optimizer_params or {}))
 
 
+def make_initializer(config):
+    initializer_type = config.get("type")
+    
+    # 检查初始化类型是否已注册
+    if initializer_type not in WEIGHT_INITIALIZER:
+        raise ValueError(f"Initializer type '{initializer_type}' is not registered in WEIGHT_INITIALIZERS registry.")
+    
+    # 根据配置中的参数生成初始化器对象
+    initializer = WEIGHT_INITIALIZER[initializer_type](**config.get("params", {}))
+    return initializer
+
+
+
 '''
 def make_callback(config):
     callback_type = config['type']
@@ -198,3 +211,50 @@ def make_model(config):
             '{} is not support now. This model seems not to be registered via @er.registry.MODEL.register()'.format(model_type))
     return model
 '''
+from typing import Any, Dict, Optional, Union
+
+def mask_model(
+        model_name: str,
+        init_cfg= None,
+        **kwargs,
+):
+    # Parameters that aren't supported by all models or are intended to only override model defaults if set
+    # should default to None in command line args/cfg. Remove them if they are present and not set so that
+    # non-supporting models don't break and default args remain in effect.
+    kwargs = {k: v for k, v in kwargs.items() if v is not None}
+
+    model_source, model_name = parse_model_name(model_name)
+    if model_source == 'hf-hub':
+        assert not pretrained_cfg, 'pretrained_cfg should not be set when sourcing model from Hugging Face Hub.'
+        # For model names specified in the form `hf-hub:path/architecture_name@revision`,
+        # load model weights + pretrained_cfg from Hugging Face hub.
+        pretrained_cfg, model_name, model_args = load_model_config_from_hf(
+            model_name,
+            cache_dir=cache_dir,
+        )
+        if model_args:
+            for k, v in model_args.items():
+                kwargs.setdefault(k, v)
+    else:
+        model_name, pretrained_tag = split_model_name_tag(model_name)
+        if pretrained_tag and not pretrained_cfg:
+            # a valid pretrained_cfg argument takes priority over tag in model name
+            pretrained_cfg = pretrained_tag
+
+    if not is_model(model_name):
+        raise RuntimeError('Unknown model (%s)' % model_name)
+
+    create_fn = model_entrypoint(model_name)
+    with set_layer_config(scriptable=scriptable, exportable=exportable, no_jit=no_jit):
+        model = create_fn(
+            pretrained=pretrained,
+            pretrained_cfg=pretrained_cfg,
+            pretrained_cfg_overlay=pretrained_cfg_overlay,
+            cache_dir=cache_dir,
+            **kwargs,
+        )
+
+    if checkpoint_path:
+        load_checkpoint(model, checkpoint_path)
+
+    return model
