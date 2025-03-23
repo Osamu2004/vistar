@@ -258,3 +258,53 @@ def mask_model(
         load_checkpoint(model, checkpoint_path)
 
     return model
+
+import copy
+def get_model(model_config,
+              pretrained: Union[str, bool] = False,
+              device=None,
+              device_map=None,
+              offload_folder=None,
+              url_mapping: Tuple[str, str] = None,
+              **kwargs):
+
+    metainfo = None
+    if isinstance(model, Config):
+        config = copy.deepcopy(model)
+        if pretrained is True and 'load_from' in config:
+            pretrained = config.load_from
+        
+
+    if pretrained is True:
+        warnings.warn('Unable to find pre-defined checkpoint of the model.')
+        pretrained = None
+    elif pretrained is False:
+        pretrained = None
+
+
+
+
+    dataset_meta = {}
+    if pretrained:
+        # Mapping the weights to GPU may cause unexpected video memory leak
+        # which refers to https://github.com/open-mmlab/mmdetection/pull/6405
+        from mmengine.runner import load_checkpoint
+        if url_mapping is not None:
+            pretrained = re.sub(url_mapping[0], url_mapping[1], pretrained)
+        checkpoint = load_checkpoint(model, pretrained, map_location='cpu')
+        if 'dataset_meta' in checkpoint.get('meta', {}):
+            # mmpretrain 1.x
+            dataset_meta = checkpoint['meta']['dataset_meta']
+        elif 'CLASSES' in checkpoint.get('meta', {}):
+            # mmcls 0.x
+            dataset_meta = {'classes': checkpoint['meta']['CLASSES']}
+
+    if len(dataset_meta) == 0 and 'test_dataloader' in config:
+        from mmpretrain.registry import DATASETS
+        dataset_class = DATASETS.get(config.test_dataloader.dataset.type)
+        dataset_meta = getattr(dataset_class, 'METAINFO', {})
+
+
+
+
+    return model

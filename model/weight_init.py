@@ -457,7 +457,7 @@ class Caffe2XavierInit(KaimingInit):
 
     def __call__(self, module):
         super().__call__(module)
-from apps.utils.model import load_state_dict_from_file
+from apps.utils.model import load_state_dict_from_file,_load_checkpoint_with_prefix
 
 @WEIGHT_INITIALIZER.register('Pretrained')
 class PretrainedInit:
@@ -485,12 +485,11 @@ class PretrainedInit:
                 only_state_dict=True)
             module.load_state_dict(weight)
         else:
-            print_log(
-                f'load {self.prefix} in model from: {self.checkpoint}',
-                logger='current')
+            print(
+                f'load {self.prefix} in model from: {self.checkpoint}')
             state_dict = _load_checkpoint_with_prefix(
                 self.prefix, self.checkpoint, map_location=self.map_location)
-            load_state_dict(module, state_dict, strict=False, logger='current')
+            module.load_state_dict(state_dict, strict=False)
 
         if hasattr(module, '_params_init_info'):
             update_init_info(module, init_info=self._get_init_info())

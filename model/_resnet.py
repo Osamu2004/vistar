@@ -1,21 +1,11 @@
 import torch.nn as nn
 from torch.utils.model_zoo import load_url as load_state_dict_from_url
-
+from .base_module import BaseModule
+from apps.registry import MODEL
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152', 'resnext50_32x4d', 'resnext101_32x4d', 'resnext101_32x8d']
 
-model_urls = {
-    'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
-    'resnet34': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
-    'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
-    'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
-    'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
-    'resnext50_32x4d': 'https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth',
-    'resnext101_32x8d': 'https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth',
-    'resnext101_32x4d': 'https://s3.ap-northeast-2.amazonaws.com/open-mmlab/pretrain/third_party/resnext101_32x4d-a5af3160.pth',
-    'resnet50_v1c': 'https://download.openmmlab.com/pretrain/third_party/resnet50_v1c-2cccc1ad.pth',
-    'resnet101_v1c': 'https://download.openmmlab.com/pretrain/third_party/resnet101_v1c-e67eebb6.pth',
-}
+
 
 
 def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
@@ -29,7 +19,7 @@ def conv1x1(in_planes, out_planes, stride=1):
     return nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False)
 
 
-class BasicBlock(nn.Module):
+class BasicBlock(BaseModule):
     expansion = 1
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
@@ -69,7 +59,7 @@ class BasicBlock(nn.Module):
         return out
 
 
-class Bottleneck(nn.Module):
+class Bottleneck(BaseModule):
     expansion = 4
 
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
@@ -229,12 +219,7 @@ class ResNet(nn.Module):
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs) -> nn.Module:
     model = ResNet(block, layers, **kwargs)
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch],
-                                              progress=progress)
-        if 'state_dict' in state_dict:
-            state_dict = state_dict['state_dict']
-        model.load_state_dict(state_dict, strict=False)
+
     return model
 
 
@@ -342,3 +327,14 @@ def resnet101_v1c(pretrained=False, progress=True, **kwargs):
     """
     return _resnet('resnet101_v1c', Bottleneck, [3, 4, 23, 3], pretrained, progress, deep_stem=True,
                    **kwargs)
+
+
+MODEL.register('resnet18', resnet18)
+MODEL.register('resnet34', resnet34)
+MODEL.register('resnet50', resnet50)
+MODEL.register('resnet101', resnet101)
+MODEL.register('resnext50_32x4d', resnext50_32x4d)
+MODEL.register('resnext101_32x4d', resnext101_32x4d)
+MODEL.register('resnext101_32x8d', resnext101_32x8d)
+MODEL.register('resnet50_v1c', resnet50_v1c)
+MODEL.register('resnet101_v1c', resnet101_v1c)

@@ -47,7 +47,7 @@ class BaseLogger:
         self.handlers.append(file_handler)
 
     @classmethod
-    def get_current_instance(cls) -> 'BaseLogger':
+    def get_current_instance(cls):
         """
         获取当前创建的日志实例，如果没有实例，创建并返回一个默认实例。
         """
