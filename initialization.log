@@ -1,0 +1,543 @@
+Name of parameter - Initialization information
+
+conv1.weight - torch.Size([64, 3, 7, 7]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.conv1.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.conv2.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn2.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn2.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.conv1.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.conv2.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn2.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn2.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.conv1.weight - torch.Size([128, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.conv2.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn2.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn2.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.0.weight - torch.Size([128, 64, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.conv1.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.conv2.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn2.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn2.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.conv1.weight - torch.Size([256, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.conv2.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn2.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn2.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.0.weight - torch.Size([256, 128, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.conv1.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.conv2.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn2.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn2.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.conv1.weight - torch.Size([512, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.conv2.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn2.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn2.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.0.weight - torch.Size([512, 256, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.conv1.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.conv2.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn2.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn2.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+Name of parameter - Initialization information
+
+conv1.weight - torch.Size([64, 3, 7, 7]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.conv1.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.conv2.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn2.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn2.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.conv1.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.conv2.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn2.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn2.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.conv1.weight - torch.Size([128, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.conv2.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn2.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn2.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.0.weight - torch.Size([128, 64, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.conv1.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.conv2.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn2.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn2.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.conv1.weight - torch.Size([256, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.conv2.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn2.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn2.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.0.weight - torch.Size([256, 128, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.conv1.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.conv2.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn2.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn2.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.conv1.weight - torch.Size([512, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.conv2.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn2.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn2.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.0.weight - torch.Size([512, 256, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.conv1.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.conv2.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn2.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn2.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+Name of parameter - Initialization information
+
+conv1.weight - torch.Size([64, 3, 7, 7]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.conv1.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.conv2.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn2.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.0.bn2.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.conv1.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn1.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn1.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.conv2.weight - torch.Size([64, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn2.weight - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer1.1.bn2.bias - torch.Size([64]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.conv1.weight - torch.Size([128, 64, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.conv2.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn2.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.bn2.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.0.weight - torch.Size([128, 64, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.0.downsample.1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.conv1.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn1.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn1.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.conv2.weight - torch.Size([128, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn2.weight - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer2.1.bn2.bias - torch.Size([128]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.conv1.weight - torch.Size([256, 128, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.conv2.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn2.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.bn2.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.0.weight - torch.Size([256, 128, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.0.downsample.1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.conv1.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn1.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn1.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.conv2.weight - torch.Size([256, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn2.weight - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer3.1.bn2.bias - torch.Size([256]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.conv1.weight - torch.Size([512, 256, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.conv2.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn2.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.bn2.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.0.weight - torch.Size([512, 256, 1, 1]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.0.downsample.1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.conv1.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn1.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn1.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.conv2.weight - torch.Size([512, 512, 3, 3]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn2.weight - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 
+
+layer4.1.bn2.bias - torch.Size([512]): 
+PretrainedInit: load from https://download.pytorch.org/models/resnet18-5c106cde.pth 

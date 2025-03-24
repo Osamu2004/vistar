@@ -457,7 +457,7 @@ class Caffe2XavierInit(KaimingInit):
 
     def __call__(self, module):
         super().__call__(module)
-from apps.utils.model import load_state_dict_from_file,_load_checkpoint_with_prefix
+from apps.utils.model import load_state_dict_from_file,load_checkpoint_with_prefix,load_state_dict_from_url
 
 @WEIGHT_INITIALIZER.register('Pretrained')
 class PretrainedInit:
@@ -474,20 +474,25 @@ class PretrainedInit:
         map_location (str): map tensors into proper locations. Defaults to cpu.
     """
 
-    def __init__(self, checkpoint, prefix=None):
+    def __init__(self, checkpoint,url=False, prefix=None, map_location='cpu'):
         self.checkpoint = checkpoint
         self.prefix = prefix
+        self.url = url
+        self.map_location = map_location
 
     def __call__(self, module):
-        if self.prefix is None:
+        if self.prefix is None and not self.url:
             weight = load_state_dict_from_file(
                 self.checkpoint,
                 only_state_dict=True)
             module.load_state_dict(weight)
+        elif self.url:
+            weight =load_state_dict_from_url(url=self.checkpoint, map_location=self.map_location,only_state_dict=True)
+            module.load_state_dict(weight,strict=False)
         else:
             print(
                 f'load {self.prefix} in model from: {self.checkpoint}')
-            state_dict = _load_checkpoint_with_prefix(
+            state_dict = load_checkpoint_with_prefix(
                 self.prefix, self.checkpoint, map_location=self.map_location)
             module.load_state_dict(state_dict, strict=False)
 

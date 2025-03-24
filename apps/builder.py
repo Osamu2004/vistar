@@ -151,16 +151,26 @@ def make_initializer(config):
     initializer = WEIGHT_INITIALIZER[initializer_type](**config)
     return initializer
 
+
+
+from model.weight_url import weight_urls,get_url
 def make_model(config):
-    initializer_type = config.get("type")
-    
-    # 检查初始化类型是否已注册
-    if initializer_type not in MODEL:
-        raise ValueError(f"Initializer type '{initializer_type}' is not registered in WEIGHT_INITIALIZERS registry.")
+    model_type = config.pop("type")
+    pretrained = config.pop("pretrained")
+    datsetname = config.pop("dataset")
+    if pretrained:
+        url = get_url(datsetname,model_type)
+        if not url:
+            raise ValueError(f"Model '{model_type}' not found in weight URLs")
+        pretrained_config = dict(type='Pretrained', checkpoint=url,url=True) 
+    else:
+        pretrained_config = None
+    if model_type not in MODEL:
+        raise ValueError(f"Model type '{model_type}' is not registered in MODEL registry.")
     
     # 根据配置中的参数生成初始化器对象
-    initializer = MODEL[initializer_type](**config.get("params", {}))
-    return initializer
+    model = MODEL[model_type](pretrained = pretrained_config,**config)
+    return model
 
 '''
 def make_callback(config):

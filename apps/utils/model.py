@@ -24,6 +24,14 @@ def load_state_dict_from_file(file: str, only_state_dict=True) -> dict[str, torc
         checkpoint = checkpoint["state_dict"]
     return checkpoint
 
+from torch.utils.model_zoo import load_url
+
+def load_state_dict_from_url(url: str,map_location ,only_state_dict=True) -> dict[str, torch.Tensor]:
+    checkpoint = load_url(url, map_location=map_location,progress=True)
+    if only_state_dict and "state_dict" in checkpoint:
+        checkpoint = checkpoint["state_dict"]
+    return checkpoint
+
 def is_parallel(model: nn.Module) -> bool:
     return isinstance(model, (nn.parallel.DataParallel, nn.parallel.DistributedDataParallel))
 
@@ -37,7 +45,7 @@ def list_mean(x: list) -> any:
     return list_sum(x) / len(x)
 
 
-def _load_checkpoint_with_prefix(prefix, filename, map_location=None):
+def load_checkpoint_with_prefix(prefix, filename, map_location=None):
     """Load partial pretrained model with specific prefix.
 
     Args:

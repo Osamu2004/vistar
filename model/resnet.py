@@ -34,10 +34,10 @@ class BasicBlock(BaseModule):
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
         self.conv1 = conv3x3(inplanes, planes, stride)
-        self.norm1 = norm_layer(planes)
+        self.bn1 = norm_layer(planes)
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = conv3x3(planes, planes)
-        self.norm2 = norm_layer(planes)
+        self.bn2 = norm_layer(planes)
         self.downsample = downsample
         self.stride = stride
 
@@ -45,11 +45,11 @@ class BasicBlock(BaseModule):
         identity = x
 
         out = self.conv1(x)
-        out = self.norm1(out)
+        out = self.bn1(out)
         out = self.relu(out)
 
         out = self.conv2(out)
-        out = self.norm2(out)
+        out = self.bn2(out)
 
         if self.downsample is not None:
             identity = self.downsample(x)
@@ -71,11 +71,11 @@ class Bottleneck(BaseModule):
         width = int(planes * (base_width / 64.)) * groups
         # Both self.conv2 and self.downsample layers downsample the input when stride != 1
         self.conv1 = conv1x1(inplanes, width)
-        self.norm1 = norm_layer(width)
+        self.bn1 = norm_layer(width)
         self.conv2 = conv3x3(width, width, stride, groups, dilation)
-        self.norm2 = norm_layer(width)
+        self.bn2 = norm_layer(width)
         self.conv3 = conv1x1(width, planes * self.expansion)
-        self.norm3 = norm_layer(planes * self.expansion)
+        self.bn3 = norm_layer(planes * self.expansion)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = downsample
         self.stride = stride
@@ -84,15 +84,15 @@ class Bottleneck(BaseModule):
         identity = x
 
         out = self.conv1(x)
-        out = self.norm1(out)
+        out = self.bn1(out)
         out = self.relu(out)
 
         out = self.conv2(out)
-        out = self.norm2(out)
+        out = self.bn2(out)
         out = self.relu(out)
 
         out = self.conv3(out)
-        out = self.norm3(out)
+        out = self.bn3(out)
 
         if self.downsample is not None:
             identity = self.downsample(x)
@@ -113,8 +113,9 @@ class ResNet(Backbone):
         self.zero_init_residual = zero_init_residual
         assert not (init_cfg and pretrained), \
             'init_cfg and pretrained cannot be setting at the same time'
-        if isinstance(pretrained, str):
-            self.init_cfg = dict(type='Pretrained', checkpoint=pretrained)
+        if pretrained:
+            self.init_cfg = pretrained
+            block_init_cfg = None
         elif pretrained is None:
             if init_cfg is None:
                 self.init_cfg = [
@@ -132,16 +133,14 @@ class ResNet(Backbone):
                         block_init_cfg = dict(
                             type='Constant',
                             val=0,
-                            override=dict(name='norm2'))
+                            override=dict(name='bn2'))
                     elif block is Bottleneck:
                         block_init_cfg = dict(
                             type='Constant',
                             val=0,
-                            override=dict(name='norm3'))
+                            override=dict(name='bn3'))
                 else:
                     block_init_cfg = None
-        else:
-            raise TypeError('pretrained must be a str or None')
 
         self._norm_layer = norm_layer
 
@@ -237,62 +236,63 @@ def _resnet( arch,block, layers, pretrained, **kwargs) -> nn.Module:
         url = weight_urls.get(arch)
         if not url:
             raise ValueError(f"Model '{arch}' not found in weight URLs")
-    model = ResNet(block, layers, pretrained = weight_url,**kwargs)
+        pretrained_config = dict(type='Pretrained', checkpoint=url,url=True)
+    model = ResNet(block, layers, pretrained = pretrained_config,**kwargs)
 
     return model
 
 
-def resnet18(pretrained=False, **kwargs):
+def resnet18(pretrained, **kwargs):
     """Constructs a ResNet-18 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet18', BasicBlock, [2, 2, 2, 2], pretrained,
+    return ResNet( BasicBlock, [2, 2, 2, 2], pretrained=pretrained,
                    **kwargs)
 
 
-def resnet34(pretrained=False, **kwargs):
+def resnet34(pretrained, **kwargs):
     """Constructs a ResNet-34 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet34', BasicBlock, [3, 4, 6, 3], pretrained, 
+    return ResNet( BasicBlock, [3, 4, 6, 3], pretrained=pretrained, 
                    **kwargs)
 
 
-def resnet50(pretrained=False, **kwargs):
+def resnet50(pretrained, **kwargs):
     """Constructs a ResNet-50 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet50', Bottleneck, [3, 4, 6, 3], pretrained, 
+    return _resnet( Bottleneck, [3, 4, 6, 3], pretrained=pretrained, 
                    **kwargs)
 
 
-def resnet101(pretrained=False, **kwargs):
+def resnet101(pretrained, **kwargs):
     """Constructs a ResNet-101 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet101', Bottleneck, [3, 4, 23, 3], pretrained, 
+    return _resnet( Bottleneck, [3, 4, 23, 3], pretrained=pretrained, 
                    **kwargs)
 
 
-def resnet152(pretrained=False, **kwargs):
+def resnet152(pretrained, **kwargs):
     """Constructs a ResNet-152 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet152', Bottleneck, [3, 8, 36, 3], pretrained, 
+    return _resnet(Bottleneck, [3, 8, 36, 3], pretrained=pretrained, 
                    **kwargs)
 
 
-def resnext50_32x4d(pretrained=False, **kwargs):
+def resnext50_32x4d(pretrained, **kwargs):
     """Constructs a ResNeXt-50 32x4d model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -300,11 +300,11 @@ def resnext50_32x4d(pretrained=False, **kwargs):
     """
     kwargs['groups'] = 32
     kwargs['width_per_group'] = 4
-    return _resnet('resnext50_32x4d', Bottleneck, [3, 4, 6, 3],
-                   pretrained,  **kwargs)
+    return _resnet( Bottleneck, [3, 4, 6, 3], pretrained=pretrained,
+                     **kwargs)
 
 
-def resnext101_32x4d(pretrained=False, **kwargs):
+def resnext101_32x4d(pretrained, **kwargs):
     """Constructs a ResNeXt-101 32x4d model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -312,11 +312,11 @@ def resnext101_32x4d(pretrained=False, **kwargs):
     """
     kwargs['groups'] = 32
     kwargs['width_per_group'] = 4
-    return _resnet('resnext101_32x4d', Bottleneck, [3, 4, 23, 3],
-                   pretrained, **kwargs)
+    return _resnet( Bottleneck, [3, 4, 23, 3], pretrained=pretrained,
+                    **kwargs)
 
 
-def resnext101_32x8d(pretrained=False, **kwargs):
+def resnext101_32x8d(pretrained, **kwargs):
     """Constructs a ResNeXt-101 32x8d model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -324,27 +324,27 @@ def resnext101_32x8d(pretrained=False, **kwargs):
     """
     kwargs['groups'] = 32
     kwargs['width_per_group'] = 8
-    return _resnet('resnext101_32x8d', Bottleneck, [3, 4, 23, 3],
-                   pretrained,  **kwargs)
+    return _resnet( Bottleneck, [3, 4, 23, 3],
+                   pretrained=pretrained,  **kwargs)
 
 
-def resnet50_v1c(pretrained=False, **kwargs) -> nn.Module:
+def resnet50_v1c(pretrained, **kwargs) -> nn.Module:
     """Constructs a ResNet-50 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet50_v1c', Bottleneck, [3, 4, 6, 3], pretrained, deep_stem=True,
+    return _resnet( Bottleneck, [3, 4, 6, 3], pretrained=pretrained, deep_stem=True,
                    **kwargs)
 
 
-def resnet101_v1c(pretrained=False, **kwargs):
+def resnet101_v1c(pretrained, **kwargs):
     """Constructs a ResNet-101 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet101_v1c', Bottleneck, [3, 4, 23, 3], pretrained,  deep_stem=True,
+    return _resnet( Bottleneck, [3, 4, 23, 3], pretrained=pretrained,  deep_stem=True,
                    **kwargs)
 
 
