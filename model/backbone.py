@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 from typing import Dict
 import torch.nn as nn
 
-from layer.base_module import BaseModule
+from model.base_module import BaseModule
 from typing import Optional
 __all__ = ["Backbone"]
 class ShapeSpec:
@@ -22,11 +22,11 @@ class Backbone(BaseModule, metaclass=ABCMeta):
     Abstract base class for network backbones.
     """
 
-    def __init__(self):
+    def __init__(self,init_cfg: Optional[dict] = None):
         """
         The `__init__` method of any subclass can specify its own set of arguments.
         """
-        super().__init__()
+        super().__init__(init_cfg=init_cfg)
 
     @abstractmethod
     def forward(self):

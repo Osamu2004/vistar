@@ -1,4 +1,4 @@
-from apps.registry import AUGMENTATION,LOSS,DATAPROVIDER,OPT,WEIGHT_INITIALIZER
+from apps.registry import AUGMENTATION,LOSS,DATAPROVIDER,OPT,WEIGHT_INITIALIZER,MODEL
 
 
 def make_dataprovider(config):
@@ -146,12 +146,21 @@ def make_initializer(config):
     # 检查初始化类型是否已注册
     if initializer_type not in WEIGHT_INITIALIZER:
         raise ValueError(f"Initializer type '{initializer_type}' is not registered in WEIGHT_INITIALIZERS registry.")
-    
+    config = {key: value for key, value in config.items() if key != "type"}
     # 根据配置中的参数生成初始化器对象
-    initializer = WEIGHT_INITIALIZER[initializer_type](**config.get("params", {}))
+    initializer = WEIGHT_INITIALIZER[initializer_type](**config)
     return initializer
 
-
+def make_model(config):
+    initializer_type = config.get("type")
+    
+    # 检查初始化类型是否已注册
+    if initializer_type not in MODEL:
+        raise ValueError(f"Initializer type '{initializer_type}' is not registered in WEIGHT_INITIALIZERS registry.")
+    
+    # 根据配置中的参数生成初始化器对象
+    initializer = MODEL[initializer_type](**config.get("params", {}))
+    return initializer
 
 '''
 def make_callback(config):
@@ -210,7 +219,7 @@ def make_model(config):
         raise ValueError(
             '{} is not support now. This model seems not to be registered via @er.registry.MODEL.register()'.format(model_type))
     return model
-'''
+
 from typing import Any, Dict, Optional, Union
 
 def mask_model(
@@ -308,3 +317,4 @@ def get_model(model_config,
 
 
     return model
+'''

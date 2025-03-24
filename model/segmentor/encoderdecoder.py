@@ -12,19 +12,15 @@ from mmseg.utils import (ConfigType, OptConfigType, OptMultiConfig,
                          OptSampleList, SampleList, add_prefix)
 from .base import BaseSegmentor
 
-
-@MODELS.register_module()
 class EncoderDecoder(BaseSegmentor):
     def __init__(self,
                  backbone: ConfigType,
                  decode_head: ConfigType,
                  neck: OptConfigType = None,
                  auxiliary_head: OptConfigType = None,
-                 data_preprocessor: OptConfigType = None,
                  pretrained: Optional[str] = None,
                  init_cfg: OptMultiConfig = None):
-        super().__init__(
-            data_preprocessor=data_preprocessor, init_cfg=init_cfg)
+        super().__init__(init_cfg=init_cfg)
         if pretrained is not None:
             assert backbone.get('pretrained') is None, \
                 'both backbone and segmentor set pretrained weight'
