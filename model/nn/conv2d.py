@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
-from layer.nn.utils import get_same_padding
-from layer.nn.build_norm import build_norm
-from layer.nn.build_act import build_act
+from model.nn.utils import get_same_padding
+from model.nn.build_norm import build_norm
+from model.nn.build_act import build_act
 
 class ConvNormAct(nn.Module):
     def __init__(
@@ -13,7 +13,7 @@ class ConvNormAct(nn.Module):
         stride=1,
         dilation=1,
         groups=1,
-        use_bias=False,
+        use_bias="auto",
         dropout=0,
         norm="bn2d",
         act_func="relu",
@@ -36,6 +36,11 @@ class ConvNormAct(nn.Module):
         )
         self.norm = build_norm(norm, num_features=out_channels)
         self.act = build_act(act_func)
+        self.with_norm = norm is not None
+        # if the conv layer is before a norm layer, bias is unnecessary.
+        if bias == 'auto':
+            bias = not self.with_norm
+        self.with_bias = bias
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.dropout is not None:

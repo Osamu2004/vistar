@@ -104,34 +104,9 @@ class BaseSegmentor(BaseModule):
         assert self.test_cfg.get('mode', 'whole') in ['slide', 'whole'], \
             f'Only "slide" or "whole" test mode are supported, but got ' \
             f'{self.test_cfg["mode"]}.'
-        ori_shape = batch_img_metas[0]['ori_shape']
-        if not all(_['ori_shape'] == ori_shape for _ in batch_img_metas):
-            print_log(
-                'Image shapes are different in the batch.',
-                logger='current',
-                level=logging.WARN)
         if self.test_cfg.mode == 'slide':
-            seg_logit = self.slide_inference(inputs, batch_img_metas)
+            seg_logit = self.slide_inference(input_dict,selected_keys=self.test_cfg["selected_keys"],crop_size=self.test_cfg["crop_size"],stride=self.test_cfg["stride"])
         else:
-            seg_logit = self.whole_inference(inputs, batch_img_metas)
+            seg_logit = self.whole_inference(input_dict)
 
         return seg_logit
-
-    def aug_test(self, inputs, batch_img_metas, rescale=True):
-        """Test with augmentations.
-
-        Only rescale=True is supported.
-        """
-        # aug_test rescale all imgs back to ori_shape for now
-        assert rescale
-        # to save memory, we get augmented seg logit inplace
-        seg_logit = self.inference(inputs[0], batch_img_metas[0], rescale)
-        for i in range(1, len(inputs)):
-            cur_seg_logit = self.inference(inputs[i], batch_img_metas[i],
-                                           rescale)
-            seg_logit += cur_seg_logit
-        seg_logit /= len(inputs)
-        seg_pred = seg_logit.argmax(dim=1)
-        # unravel batch dim
-        seg_pred = list(seg_pred)
-        return seg_pred

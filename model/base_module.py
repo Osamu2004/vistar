@@ -167,3 +167,17 @@ class ModuleDict(BaseModule, nn.ModuleDict):
                  init_cfg: Optional[dict] = None):
         BaseModule.__init__(self, init_cfg)
         nn.ModuleDict.__init__(self, modules)
+
+class SiameseSequential(Sequential):
+    """
+    Siamese 网络的 Sequential 模块，接收一对输入张量并通过共享权重的两个分支进行前向传播。
+
+    Args:
+        input (Tuple[torch.Tensor, torch.Tensor]): 输入的两个张量，分别经过共享的操作。
+    """
+    def forward(self, input):
+        x1, x2 = input  # 从元组中分离两个输入张量
+        for op in self:
+            x1 = op(x1)  # 对第一个输入应用每个操作
+            x2 = op(x2)  # 对第二个输入应用每个操作
+        return x1, x2  # 返回两个独立的输出

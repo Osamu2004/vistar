@@ -3,29 +3,29 @@ import torch.nn as nn
 import torchvision.transforms.functional as F
 from typing import List, Dict
 
-class TTAModel(nn.Module):
+class BaseTTAModel(nn.Module):
     """A model wrapper that applies test-time augmentation (TTA) using torchvision.transforms."""
     
-    def __init__(self, model: nn.Module, scale_factors: List[float], flip: bool = True, tta_keys: List[str] = None):
+    def __init__(self, model: nn.Module, scale_factors: List[float], flip: bool = True, selected_keys: List[str] = None):
         super().__init__()
         self.model = model
         self.scale_factors = scale_factors
         self.flip = flip
-        self.tta_keys = tta_keys if tta_keys is not None else []
+        self.selected_keys = selected_keys if selected_keys is not None else []
     
     def apply_tta(self, inputs: Dict[str, torch.Tensor]):
         """Applies TTA transformations to specified keys in the input dictionary."""
         augmented_inputs = []
         transforms = []
 
-        orig_h, orig_w = inputs[self.tta_keys[0]].shape[-2:]
+        orig_h, orig_w = inputs[self.selected_keys[0]].shape[-2:]
 
         for scale in self.scale_factors:
             new_h, new_w = int(orig_h * scale), int(orig_w * scale)
             
             aug_batch = {}
             for key, tensor in inputs.items():
-                if key in self.tta_keys:
+                if key in self.selected_keys:
                     aug_batch[key] = F.resize(tensor, size=[new_h, new_w])
                 else:
                     aug_batch[key] = tensor  # 不需要增强的键保持不变
@@ -38,7 +38,7 @@ class TTAModel(nn.Module):
                 for flip_type, flip_func in [("h", F.hflip), ("v", F.vflip)]:
                     flipped_data = {}
                     for key, tensor in aug_batch.items():
-                        if key in self.tta_keys:
+                        if key in self.selected_keys:
                             flipped_data[key] = flip_func(tensor)
                         else:
                             flipped_data[key] = tensor  # 不变
@@ -47,7 +47,7 @@ class TTAModel(nn.Module):
                     transforms.append((scale, flip_type == "h", flip_type == "v"))
                 flipped_data = {}
                 for key, tensor in aug_batch.items():
-                    if key in self.tta_keys:
+                    if key in self.selected_keys:
                         flipped_data[key] = F.vflip(F.hflip(tensor))
                     else:
                         flipped_data[key] = tensor  # 不变
