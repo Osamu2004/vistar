@@ -1,5 +1,4 @@
 import torch.nn as nn
-from torch.utils.model_zoo import load_url as load_state_dict_from_url
 from .base_module import BaseModule,Sequential
 from .backbone import Backbone
 from apps.registry import MODEL

@@ -3,12 +3,14 @@ from typing import Dict, Optional
 from model.base_module import BaseModule
 # 假设模型类继承自BaseModel
 
-class Segmentor(BaseModule):
+class BaseSegmentor(BaseModule):
     """Base class for all segmentation models."""
-    def __init__(self, init_cfg: Optional[dict] = None):
+    def __init__(self, 
+                 init_cfg: Optional[dict] = None,
+                 test_cfg: Optional[dict] = None):
 
         super().__init__(init_cfg)
-
+        self.test_cfg = test_cfg
 
 
     @property
@@ -97,21 +99,8 @@ class Segmentor(BaseModule):
         return patch_outputs
 
 
-    def inference(self, inputs: Tensor, batch_img_metas: List[dict]) -> Tensor:
-        """Inference with slide/whole style.
+    def inference(self, input_dict):
 
-        Args:
-            inputs (Tensor): The input image of shape (N, 3, H, W).
-            batch_img_metas (List[dict]): List of image metainfo where each may
-                also contain: 'img_shape', 'scale_factor', 'flip', 'img_path',
-                'ori_shape', 'pad_shape', and 'padding_size'.
-                For details on the values of these keys see
-                `mmseg/datasets/pipelines/formatting.py:PackSegInputs`.
-
-        Returns:
-            Tensor: The segmentation results, seg_logits from model of each
-                input image.
-        """
         assert self.test_cfg.get('mode', 'whole') in ['slide', 'whole'], \
             f'Only "slide" or "whole" test mode are supported, but got ' \
             f'{self.test_cfg["mode"]}.'
