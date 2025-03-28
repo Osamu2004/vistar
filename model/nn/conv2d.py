@@ -75,6 +75,8 @@ class ConvBn(nn.Module):
 
 
     def switch_to_deploy(self):
+        if self.bn.training:
+            raise RuntimeError("BatchNorm should be in evaluation mode (eval) before deployment.")
         deploy_k, deploy_b = self._fuse_bn_tensor(self.conv, self.bn)
         self.deploy = True
         self.fused_conv = nn.Conv2d(in_channels=self.conv.in_channels, out_channels=self.conv.out_channels,
@@ -93,3 +95,6 @@ class ConvBn(nn.Module):
             square_outputs = self.conv(input)
             square_outputs = self.bn(square_outputs)
             return square_outputs
+        
+class RepConv2d(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_sizes=(3, 7, 11), stride=1, dilation=1, bias=True, use_identity=True, groups=1):
