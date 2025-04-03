@@ -14,7 +14,6 @@ class StepTrainer:
         self.path = os.path.realpath(os.path.expanduser(path))
         self.model = model.cuda()
         self.data_provider = data_provider
-        print(self.data_provider,4444444444444444444444444444444444444)
         self.ema = None
 
         self.checkpoint_path = os.path.join(self.path, "checkpoint")

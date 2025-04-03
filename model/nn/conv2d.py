@@ -67,13 +67,12 @@ class ConvBn(nn.Module):
                                          padding_mode=padding_mode)
             self.bn = nn.BatchNorm2d(num_features=out_channels)
 
-
     def _fuse_bn_tensor(self, conv, bn):
         std = (bn.running_var + bn.eps).sqrt()
         t = (bn.weight / std).reshape(-1, 1, 1, 1)
         return conv.weight * t, bn.bias - bn.running_mean * bn.weight / std
 
-
+    @torch.no_grad()
     def switch_to_deploy(self):
         if self.bn.training:
             raise RuntimeError("BatchNorm should be in evaluation mode (eval) before deployment.")
