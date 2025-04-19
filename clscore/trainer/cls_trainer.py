@@ -9,6 +9,8 @@ import torch.nn.functional as F
 from tqdm import tqdm
 from apps.trainer.base import EpochTrainer
 from apps.utils.dist import is_master, sync_tensor
+import math
+from apps.utils.model import list_join, list_mean
 
 __all__ = ["ClsTrainer"]
 
@@ -155,27 +157,22 @@ class ClsTrainer(EpochTrainer):
 
         with torch.autocast(device_type="cuda", dtype=self.amp_dtype, enabled=self.enable_amp):
             output = self.model(images)
-            loss = self.train_criterion(output, labels)
+            if isinstance(output, dict):
+                main_output = output["main"]
+            else:
+                main_output = output
+            loss = self.train_criterion(main_output, labels)
             # mesa loss
             if ema_output is not None:
-                mesa_loss = self.train_criterion(output, ema_output)
+                mesa_loss = self.train_criterion(output, ema_main_output)
                 loss = loss + self.run_config.mesa["ratio"] * mesa_loss
+        if not math.isfinite(loss.item()): # this could trigger if using AMP
+            print("Loss is {}, stopping training".format(loss.item()))
+            assert math.isfinite(loss.item())
         self.scaler.scale(loss).backward()
 
-        # calc train top1 acc
-        if self.run_config.mixup_config is None:
-            top1 = accuracy(output, torch.argmax(labels, dim=1), topk=(1,))[0][0]
-        else:
-            top1 = None
-
-        return {
-            "loss": loss,
-            "top1": top1,
-        }
-
     def _train_one_epoch(self, epoch: int) -> dict[str, Any]:
-        train_loss = AverageMeter()
-        train_top1 = AverageMeter()
+        self.reset_metrics()
 
         with tqdm(
             total=len(self.data_provider.train),
@@ -183,29 +180,21 @@ class ClsTrainer(EpochTrainer):
             disable=not is_master(),
             file=sys.stdout,
         ) as t:
-            for images, labels in self.data_provider.train:
-                feed_dict = {"data": images, "label": labels}
-
+            for samples in self.data_provider.train:
                 # preprocessing
-                feed_dict = self.before_step(feed_dict)
+                feed_dict = self.before_step(samples)
                 # clear gradient
                 self.optimizer.zero_grad()
                 # forward & backward
-                output_dict = self.run_step(feed_dict)
+                self._run_step(feed_dict)
                 # update: optimizer, lr_scheduler
                 self.after_step()
 
-                # update train metrics
-                train_loss.update(output_dict["loss"], images.shape[0])
-                if output_dict["top1"] is not None:
-                    train_top1.update(output_dict["top1"], images.shape[0])
-
                 # tqdm
                 postfix_dict = {
-                    "loss": train_loss.avg,
-                    "top1": train_top1.avg,
-                    "bs": images.shape[0],
-                    "res": images.shape[2],
+                    "loss": self.metrics["main"]["loss"].compute().item() if "loss" in self.metrics["main"] else None,
+                     "top1": self.metrics["main"]["top1"].compute().item() if "top1" in self.metrics["main"] else None,
+                    "bs": samples["image"].shape[0],
                     "lr": list_join(
                         sorted(set([group["lr"] for group in self.optimizer.param_groups])),
                         "#",
@@ -215,22 +204,16 @@ class ClsTrainer(EpochTrainer):
                 }
                 t.set_postfix(postfix_dict)
                 t.update()
-        return {
-            **({"train_top1": train_top1.avg} if train_top1.count > 0 else {}),
-            "train_loss": train_loss.avg,
-        }
 
     def train(self, trials=0, save_freq=1) -> None:
-        if self.run_config.bce:
-            self.train_criterion = nn.BCEWithLogitsLoss()
-        else:
-            self.train_criterion = nn.CrossEntropyLoss()
 
         for epoch in range(self.start_epoch, self.run_config.n_epochs + self.run_config.warmup_epochs):
             train_info_dict = self.train_one_epoch(epoch)
             # eval
-            val_info_dict = self.multires_validate(epoch=epoch)
-            avg_top1 = list_mean([info_dict["val_top1"] for info_dict in val_info_dict.values()])
+            val_info_dict = self.validate(epoch=epoch)
+            if self.logger:
+                self.logger.log_metrics(metrics=val_info_dict, step=epoch + self.run_config.eval_interval)
+            avg_top1 = val_info_dict["val_main_top1"].item()
             is_best = avg_top1 > self.best_val
             self.best_val = max(avg_top1, self.best_val)
 
@@ -239,22 +222,6 @@ class ClsTrainer(EpochTrainer):
                     self.write_log(f"Abnormal accuracy drop: {self.best_val} -> {avg_top1}")
                     self.load_model(os.path.join(self.checkpoint_path, "model_best.pt"))
                     return self.train(trials + 1, save_freq)
-
-            # log
-            val_log = self.run_config.epoch_format(epoch)
-            val_log += f"\tval_top1={avg_top1:.2f}({self.best_val:.2f})"
-            val_log += "\tVal("
-            for key in list(val_info_dict.values())[0]:
-                if key == "val_top1":
-                    continue
-                val_log += f"{key}={list_mean([info_dict[key] for info_dict in val_info_dict.values()]):.2f},"
-            val_log += ")\tTrain("
-            for key, val in train_info_dict.items():
-                val_log += f"{key}={val:.2E},"
-            val_log += (
-                f'lr={list_join(sorted(set([group["lr"] for group in self.optimizer.param_groups])), "#", "%.1E")})'
-            )
-            self.write_log(val_log, prefix="valid", print_log=False)
 
             # save model
             if (epoch + 1) % save_freq == 0 or (is_best and self.run_config.progress > 0.8):

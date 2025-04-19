@@ -469,7 +469,6 @@ class CDTrainer(StepTrainer):
 
     def train(self, trials=0, save_freq=1) -> None:
         for epoch in range(self.start_epoch, self.run_config.n_steps, self.run_config.eval_interval):
-            is_best = False
             # Training step
             self._step_interval_training(epoch, self.run_config.eval_interval)
 
