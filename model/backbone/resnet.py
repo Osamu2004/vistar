@@ -1,5 +1,5 @@
 import torch.nn as nn
-from .base_module import BaseModule,Sequential
+from ..base_module import BaseModule,Sequential
 from .backbone import Backbone
 from apps.registry import MODEL
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
@@ -229,7 +229,7 @@ class ResNet(Backbone):
 
         return x
 
-from .weight_url import weight_urls
+from ..weight_url import weight_urls
 def _resnet( arch,block, layers, pretrained, **kwargs) -> nn.Module:
     if pretrained:
         url = weight_urls.get(arch)
