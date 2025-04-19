@@ -153,7 +153,7 @@ def make_initializer(config):
 
 
 
-from model.weight_url import weight_urls,get_url
+from model.weight_url import get_url
 def make_model(config):
     model_type = config.pop("type")
     pretrained = config.pop("pretrained")

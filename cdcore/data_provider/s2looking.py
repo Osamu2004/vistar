@@ -65,7 +65,7 @@ class S2lookingDataProvider(DataProvider):
         )
     def build_train_transform(self,config,t1_mean_std,t2_mean_std):
         if config is None:
-            raise ValueError("trsin augmentation config cannot be None.")
+            raise ValueError("augmentation config cannot be None.")
         required_keys = ["shared", "t1", "t2"]
         for key in required_keys:
             if key not in config:

@@ -20,9 +20,6 @@ class EncoderDecoder(BaseSegmentor):
         if neck is not None:
             self.neck = make_model(neck)
         self._init_decode_head(decode_head)
-
-
-
     def _init_decode_head(self, decode_head) -> None:
         """Initialize ``decode_head``"""
         self.decode_head = make_model(decode_head)
